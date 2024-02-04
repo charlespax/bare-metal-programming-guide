@@ -43,14 +43,14 @@ static inline void spin(volatile uint32_t count) {
 }
 
 int main(void) {
-  uint16_t led = PIN('B', 7);            // Blue LED
+  uint16_t led = PIN('C', 13);            // Blue LED
   RCC->AHB1ENR |= BIT(PINBANK(led));     // Enable GPIO clock for LED
   gpio_set_mode(led, GPIO_MODE_OUTPUT);  // Set blue LED to output mode
   for (;;) {
     gpio_write(led, true);
-    spin(999999);
+    spin(500000);
     gpio_write(led, false);
-    spin(999999);
+    spin(500000);
   }
   return 0;
 }

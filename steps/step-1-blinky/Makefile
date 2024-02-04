@@ -20,7 +20,12 @@ firmware.bin: firmware.elf
 	arm-none-eabi-objcopy -O binary $< $@
 
 flash: firmware.bin
-	st-flash --reset write $< 0x8000000
+	openocd -f /usr/share/openocd/scripts/interface/stlink.cfg \
+		    -f /usr/share/openocd/scripts/target/stm32f4x.cfg  \
+			-c "program firmware.bin exit 0x08000000 reset"
 
+debug: firmware.bin
+	openocd -f /usr/share/openocd/scripts/interface/stlink.cfg \
+		    -f /usr/share/openocd/scripts/target/stm32f4x.cfg
 clean:
 	$(RM) firmware.*
