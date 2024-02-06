@@ -1,9 +1,9 @@
-ENTRY(_reset);
+ENTRY(_reset); /* _reset is defined in main.c */
 MEMORY {
   flash(rx)  : ORIGIN = 0x08000000, LENGTH = 256k
   sram(rwx) : ORIGIN = 0x20000000, LENGTH = 64k  /* remaining 64k in a separate address space */
 }
-_estack     = ORIGIN(sram) + LENGTH(sram);    /* stack points to end of SRAM */
+_estack     = ORIGIN(sram) + LENGTH(sram);    /* end of stack. stack points to end of SRAM */
 
 SECTIONS {
   .vectors  : { KEEP(*(.vectors)) }   > flash
