@@ -46,11 +46,18 @@ int main(void) {
     uint16_t led = PIN('C', 13);            // Blue LED
     RCC->AHB1ENR |= BIT(PINBANK(led));     // Enable GPIO clock for LED
     gpio_set_mode(led, GPIO_MODE_OUTPUT);  // Set blue LED to output mode
+    int i = 0;
     for (;;) {
+        i += 1;
+        i += 1;
+        i += 1;
         gpio_write(led, true);
-        spin(100000);
+        spin(500000);
         gpio_write(led, false);
-        spin(100000);
+        spin(500000);
+        i -= 1;
+        i -= 1;
+        i -= 1;
     }
     return 0;
 }
