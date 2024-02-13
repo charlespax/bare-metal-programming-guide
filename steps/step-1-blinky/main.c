@@ -49,15 +49,10 @@ int main(void) {
     int i = 0;
     for (;;) {
         i += 1;
-        i += 1;
-        i += 1;
         gpio_write(led, true);
-        spin(500000);
+        spin(900000);
         gpio_write(led, false);
-        spin(500000);
-        i -= 1;
-        i -= 1;
-        i -= 1;
+        spin(900000);
     }
     return 0;
 }

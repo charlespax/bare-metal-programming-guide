@@ -45,8 +45,12 @@ firmware.bin: firmware.elf
 flash: firmware.bin
 	@echo ' '
 	@echo "Flashing firmware.bin via stlink..."
-	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg  \
-		-c "program firmware.bin exit 0x08000000 reset"
+	openocd \
+		-f interface/stlink.cfg \
+		-c "transport select hla_swd" \
+		-f target/stm32f4x.cfg  \
+		-c "adapter speed 1800" \
+		-c "program firmware.bin exit 0x08000000 reset" 
 
 # Black Magic Probe debug target: ttyACM0
 # Black Magic Probe serial port: ttyACM1
