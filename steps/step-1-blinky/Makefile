@@ -87,7 +87,7 @@ openocd-jlink: firmware.bin flash-jlink
 		-c 'transport select swd' \
 	    -f /usr/share/openocd/scripts/target/stm32f4x.cfg &
 
-debug: firmware.elf openocd
+debug-stlink: firmware.elf openocd
 	@echo ' '
 	@echo "Starting debug via openocd..."
 	gdb-multiarch \
@@ -102,6 +102,9 @@ debug-jlink: firmware.elf openocd-jlink
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
 		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
+
+debug: debug-jlink
+#debug: debug-stlink
 
 clean:
 	@echo ' '
