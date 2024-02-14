@@ -65,7 +65,7 @@ flash-bmp: firmware.bin
 
 flash-jlink: firmware.bin
 	@echo ' '
-	@echo "Flashing firmware.bin via JLink..."
+	@echo "Flashing firmware.bin via J-Link..."
 	openocd \
 		-f '/usr/share/openocd/scripts/interface/jlink.cfg' \
 		-c 'transport select swd' \
@@ -79,7 +79,23 @@ openocd: firmware.bin flash
 		-f /usr/share/openocd/scripts/interface/stlink.cfg \
 	    -f /usr/share/openocd/scripts/target/stm32f4x.cfg &
 
+openocd-jlink: firmware.bin flash-jlink
+	@echo ' '
+	@echo "Starting openocd via J-Link..."
+	openocd \
+		-f /usr/share/openocd/scripts/interface/jlink.cfg \
+		-c 'transport select swd' \
+	    -f /usr/share/openocd/scripts/target/stm32f4x.cfg &
+
 debug: firmware.elf openocd
+	@echo ' '
+	@echo "Starting debug via openocd..."
+	gdb-multiarch \
+		firmware.elf \
+		-ex 'target extended-remote localhost:3333' \
+		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
+
+debug-jlink: firmware.elf openocd-jlink
 	@echo ' '
 	@echo "Starting debug via openocd..."
 	gdb-multiarch \
