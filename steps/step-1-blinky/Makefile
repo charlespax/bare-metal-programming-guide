@@ -93,6 +93,7 @@ debug-stlink: firmware.elf openocd
 	gdb-multiarch \
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
+		-ex 'set confirm off' \
 		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
 
 debug-jlink: firmware.elf openocd-jlink
@@ -101,6 +102,7 @@ debug-jlink: firmware.elf openocd-jlink
 	gdb-multiarch \
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
+		-ex 'set confirm off' \
 		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
 
 debug: debug-jlink
