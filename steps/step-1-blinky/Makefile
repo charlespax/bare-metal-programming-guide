@@ -42,7 +42,7 @@ firmware.bin: firmware.elf
 	@echo "Converting ELF to BIN..."
 	arm-none-eabi-objcopy -O binary $< $@
 
-flash: firmware.bin
+flash-stlink: firmware.bin
 	@echo ' '
 	@echo "Flashing firmware.bin via stlink..."
 	openocd \
@@ -72,7 +72,7 @@ flash-jlink: firmware.bin
 	    -f '/usr/share/openocd/scripts/target/stm32f4x.cfg' \
 		-c "program firmware.bin exit 0x08000000 reset"
 
-openocd: firmware.bin flash
+openocd: firmware.bin flash-stlink
 	@echo ' '
 	@echo "Starting openocd via stlink..."
 	openocd \
@@ -107,6 +107,8 @@ debug-jlink: firmware.elf openocd-jlink
 
 debug: debug-jlink
 #debug: debug-stlink
+
+flash: flash-jlink
 
 clean:
 	@echo ' '
