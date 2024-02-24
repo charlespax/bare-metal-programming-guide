@@ -95,6 +95,9 @@ debug-stlink: firmware.elf openocd
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
 		-ex 'set confirm off' \
+		-ex 'tui new-layout foo regs 20 asm 20 src 30 cmd 3 status 3' \
+		-ex 'layout foo' \
+		-ex 'tui disable' \
 		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
 
 debug-jlink: firmware.elf openocd-jlink
@@ -104,6 +107,9 @@ debug-jlink: firmware.elf openocd-jlink
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
 		-ex 'set confirm off' \
+		-ex 'tui new-layout foo regs 20 asm 20 src 30 cmd 3 status 3' \
+		-ex 'layout foo' \
+		-ex 'tui disable' \
 		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
 
 debug: debug-jlink
@@ -114,4 +120,20 @@ flash: flash-jlink
 clean:
 	@echo ' '
 	$(RM) firmware.*
+
+# command to compile and load stm32f103:
+# openocd \
+	# -f /usr/share/openocd/scripts/interface/jlink.cfg \
+	# -c "transport select swd" \
+	# -f /usr/share/openocd/scripts/target/stm32f1x.cfg \
+	# -c "program bluepill.elf verify reset exit"
+
+
+ # command to debug
+ # openocd \
+	 #  -f /usr/share/openocd/scripts/interface/jlink.cfg \
+	 #  -c "transport select swd" \
+	 #  -f /usr/share/openocd/scripts/target/stm32f1x.cfg \
+	 #  -c "program bluepill.elf verify reset"
+
 
