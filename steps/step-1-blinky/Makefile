@@ -109,6 +109,8 @@ debug-jlink: firmware.elf openocd-jlink
 		-ex 'set confirm off' \
 		-ex 'tui new-layout foo regs 20 asm 20 src 30 cmd 3 status 3' \
 		-ex 'layout foo' \
+		-ex 'winheight regs 11' \
+		-ex 'winheight cmd 8' \
 		-ex 'tui disable' \
 		-ex 'monitor [target current] configure -event gdb-detach {shutdown}' # stop openocd on exit
 
