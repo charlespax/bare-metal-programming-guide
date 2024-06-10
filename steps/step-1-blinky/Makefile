@@ -56,7 +56,8 @@ flash-stlink: firmware.bin
 # Black Magic Probe serial port: ttyACM1
 flash-bmp: firmware.bin
 	@echo ' '
-	gdb-multiarch \
+	#gdb-multiarch \
+	arm-none-eabi-gdb \
 		-ex 'target extended-remote /dev/ttyACM0' \
 		-ex 'monitor swdp_scan' \
 		-ex 'attach 1' \
@@ -91,7 +92,8 @@ openocd-jlink: firmware.bin flash-jlink
 debug-stlink: firmware.elf openocd
 	@echo ' '
 	@echo "Starting debug via openocd..."
-	gdb-multiarch \
+	#gdb-multiarch \
+	arm-none-eabi-gdb \
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
 		-ex 'set confirm off' \
@@ -103,7 +105,8 @@ debug-stlink: firmware.elf openocd
 debug-jlink: firmware.elf openocd-jlink
 	@echo ' '
 	@echo "Starting debug via openocd..."
-	gdb-multiarch \
+	#gdb-multiarch \
+	arm-none-eabi-gdb \
 		firmware.elf \
 		-ex 'target extended-remote localhost:3333' \
 		-ex 'set confirm off' \
